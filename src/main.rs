@@ -14,22 +14,29 @@ fn main() {
 
     // 1. Initialize cpu
     let mut cpu = sysproglib::CPU {
-        current_operation: 0,
-        registers: [0; 2],
+        position_in_memory: 0,
+        registers: [0; 16],
+        memory: [0; 4096],
     };
-
-    // 2. load addition opcode
-    cpu.current_operation = 0x8014;
 
     // 3. into u8 values into registers
     cpu.registers[0] = 5;
     cpu.registers[1] = 10;
+    cpu.registers[2] = 10;
+    cpu.registers[3] = 10;
+
+    cpu.memory[0] = 0x80;
+    cpu.memory[1] = 0x14;
+    cpu.memory[2] = 0x80;
+    cpu.memory[3] = 0x24;
+    cpu.memory[4] = 0x80;
+    cpu.memory[5] = 0x34;
 
     cpu.run();
 
-    assert_eq!(cpu.registers[0], 15);
+    assert_eq!(cpu.registers[0], 35);
 
-    println!("5 + 10 = {}", cpu.registers[0]);
+    println!("5 + 10 + 10 + 10 = {}", cpu.registers[0]);
 }
 
 #[cfg(test)]
